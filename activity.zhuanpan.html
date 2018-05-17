@@ -1,0 +1,885 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>幸运大转盘</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, user-scalable=no, maximum-scale=1.0"/>
+    <meta content="yes" name="apple-mobile-web-app-capable" />
+    <meta content="black" name="apple-mobile-web-app-status-bar-style" />
+    <meta content="telephone=no" name="format-detection" />
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+    <meta http-equiv="Pragma" content="no-cache" />
+    <meta http-equiv="Expires" content="0" />
+    <link href="/statics/templates/yungou/css/mobile/comm.css" rel="stylesheet" type="text/css" />
+
+    <link href="/statics/public/zhuanpan/css/comm.css?v=17051301" rel="stylesheet" type="text/css" />
+    <link href="/statics/public/zhuanpan/css/style.css?v=17042201" rel="stylesheet" type="text/css">
+	<script src="/statics/public/zhuanpan/js/jquery-1.10.2.js" language="javascript" type="text/javascript"></script>
+	<script src="/statics/public/zhuanpan/js/awardRotate.js" language="javascript" type="text/javascript"></script>
+	<script src="/statics/public/zhuanpan/js/musicAutoPlay.js?v=2.0" language="javascript" type="text/javascript"></script>
+	<script src="/statics/public/zhuanpan/js/layer.js?v=2.0" language="javascript" type="text/javascript"></script>
+<style>
+	body{
+		overflow-x: hidden;
+		background: linear-gradient(to right,#fe3d50 0%,#ff3156 100%);
+	}
+	.lotteryList ul li
+	{
+		font-size: 12px;
+	}
+	.lucky_header{
+		width: 100%;
+		max-width: 640px;
+		margin: 0 auto;
+		overflow: hidden;
+		max-height: 320px;
+		background-image: url("/statics/public/zhuanpan/image/lucky_header.png");
+		background-size: 100% 100%;
+		background-position: top center;
+		background-repeat: no-repeat;
+		position: relative;
+		display: block;
+		height: 0;
+		padding-bottom: calc(297/ 640 * 100%);
+	}
+	.lotteryList {
+		position: fixed;
+		top:6%;
+		left:50%;
+		display:none;
+		margin: 20px -45% 50px;
+		background: #FFE4B5;
+		z-index:10002;
+		opacity:0;
+	}
+	.lotteryList table
+	{
+		border:1px solid brown;
+		color:black;
+		margin:0 auto;
+		border-collapse:collapse;
+		width: 95%;
+		border-radius: 10px;
+	}
+	.lotteryList tr
+	{
+		border:1px solid brown;
+		border-radius: 10px;
+	}
+	.lotteryList td
+	{
+		border:1px solid brown;
+		padding:16px;
+		text-align: center;
+	}
+	.lotteryList h1
+	{
+		width: 95%;
+		text-align: center;
+		color:red;
+	}
+
+	.box{
+		margin:0 auto;
+		background: linear-gradient(to right,#fe3d50 0%,#ff3156 100%);
+		margin-top: -36px;
+	}
+	.banner{
+		position: relative;
+		margin-bottom: 40px;
+		max-width: 442px;
+	}
+	.banner .yprize{
+		position: absolute;
+		background-image: url();
+		background-size: 100% 100%;
+		background-position: top center;
+		cursor: pointer;
+		width: 40px;
+		height: 40px;
+		bottom: 0;
+		left: 0;
+	}
+	.banner .rule{
+		position: absolute;
+		background-image: url();
+		background-size: 100% 100%;
+		background-position: top center;
+		cursor: pointer;
+		width: 40px;
+		height: 40px;
+		bottom: 0;
+		right: 0;
+	}
+	.banner span{
+		position: absolute;
+		font-weight: bold;
+	}
+	.banner .yprizetip{
+		bottom: 55px;
+		left: 0px;
+		color:#fff;
+	}
+	.banner .ruletip{
+		bottom: 55px;
+		right: 0px;
+		color: #fff;
+	}
+
+	/*bgm*/
+	#bgm {
+		position: absolute;
+		top: .5rem;
+		left: .5rem;
+		width: 2rem;
+		height: 2rem;
+		background: transparent url("/statics/public/zhuanpan/image/music.png") no-repeat center / 1.5rem 1.5rem;
+		cursor: pointer;
+		-webkit-tap-highlight-color: rgba(255,255,255,0);
+		-webkit-animation: music 2s infinite linear;
+		animation-fill-mode: forwards
+	}
+
+	@-webkit-keyframes music {
+		100% {
+			-webkit-transform: rotate(360deg);
+		}
+	}
+	#shownum{
+		position: absolute;
+		bottom:0 ;
+		left: 50%;
+		width: 220px;
+		height: 30px;
+		background: #75c8da;
+		margin-left: -110px;
+		text-align: center;
+		box-sizing: border-box;
+		line-height: 30px;
+		border-radius: 10px;
+		opacity: 0;
+		z-index: 100010;
+	}
+	.arrow_box{
+		width: 10rem;
+		height: 8rem;
+		position: fixed;
+		top:1rem;
+		right:0;
+		display: none;
+		z-index: 1003;
+	}
+	.arrow_content{
+		position: relative;
+	}
+
+	.arrow{
+		background: transparent url("/statics/public/zhuanpan/image/click.png") no-repeat center top / 100% 100%;
+		width: 2rem;
+		height: 3rem;
+		margin-bottom: 1rem;
+		margin-left:8rem;
+		animation:arrowmove 1s infinite;
+		-webkit-animation:arrowmove 1s infinite;
+		position:absolute;
+	}
+
+	.arrow_tip{
+		color: #000;
+		font-size: 1rem;
+		width: 8rem;
+		right: 1rem;
+		background: #fff;
+		text-align: center;
+		padding: 10px;
+		box-sizing: border-box;
+		opacity: .8;
+	}
+	@keyframes arrowmove{
+		0%{margin-top:0rem}
+		50%{margin-top:1rem}
+		100%{margin-top:0rem}
+	}
+	.banner .turnplate{
+		z-index: 10001;
+		width: 70%;
+		margin: 2px auto 0px;
+	}
+	.banner .turnplate img.pointer{
+		width: 34.5%;
+		height: 42.5%;
+		left: 32.6%;
+		top: 23%;
+	}
+	.box-bottom{
+		width: 70%;
+		margin: 0 auto;
+		margin-top: -58px;
+		position: relative;
+		max-width: 442px;
+	}
+	.box-bottom img{
+		width: 100%;
+		height: 100%;
+	}
+	.yprize{
+		width: 70px;
+		height: 20px;
+		position: absolute;
+		bottom: 10px;
+		left: -40px;
+		background: #3082ff;
+		border-radius: 20px;
+		text-align: center;
+		color: #fff;
+		line-height: 20px;
+	}
+	.rule{
+		width: 70px;
+		height: 20px;
+		background: #3082ff;
+		text-align: center;
+		position: absolute;
+		right: -40px;
+		bottom: 10px;
+		color: #fff;
+		border-radius: 20px;
+		line-height: 20px;
+	}
+	#msg{
+		z-index: 10004;
+	}
+	.linkBox{
+		position: fixed;
+		width: 100%;
+		z-index: 1001;
+	}
+	.vlink{
+		height: 40px;
+	}
+	.link{
+		height: 40px;
+		text-align: center;
+		line-height: 40px;
+		background: #3e3e3e;
+		color: #fff;
+		cursor: pointer;
+		font-size: 18px;
+		position: relative;
+	}
+	.closeLink{
+		width: 40px;
+		height: 40px;
+		position: absolute;
+		right: 10px;
+		font-size: 22px;
+		top: 0px;
+		line-height: 40px;
+		transform: rotateZ(225deg);
+		cursor: pointer;
+	}
+	.linkLogo{
+		width: 24px;
+		height: 24px;
+		position: absolute;
+		left: 10px;
+		top: 8px;
+	}
+	.qrCodeBox {
+		width: 60%;
+		position: fixed;
+		top: 20%;
+		left: 20%;
+		z-index: 10070;
+		border-radius: 10%;
+		opacity: 0;
+		display: none;
+	}
+	.innerBox{
+		position: relative;
+		width: 100%;
+		height: 100%;
+	}
+	.innerBox .close{
+		position: absolute;
+		right: -6px;
+		width: 20px;
+		height: 20px;
+		text-align: center;
+		line-height: 20px;
+		background: #000;
+		color: #fff;
+		cursor: pointer;
+		border-radius: 50%;
+		top: -6px;
+		font-size: 12px;
+	}
+	.innerBox img{
+		width: 100%;
+		border-radius: 10%;
+	}
+	.layui-m-layerbtn{
+		width: 30%;
+		margin: 0 auto;
+		border-radius: 10px;
+		line-height: 30px;
+		height: 30px;
+		margin-bottom: 10px;
+		background: #ff6b6b;
+		color: #fff;
+	}
+	.layui-m-layerbtn span[yes] {
+		color: #FFF;
+	}
+	.watermark{
+		position: absolute;
+		width: 100%;
+		height: 100%;
+		z-index: 0;
+		background-image: url("/statics/public/zhuanpan/image/watermark.png");
+		background-size: 100% 100%;
+		background-position: top center;
+	}
+</style>
+</head>
+<body>
+<div class="watermark">
+</div>
+<img src="/statics/public/zhuanpan/image/a1.jpg" id="201801161" style="display:none;" />
+<img src="/statics/public/zhuanpan/image/a2.jpg" id="201801162" style="display:none;" />
+<img src="/statics/public/zhuanpan/image/a3.jpg" id="201801163" style="display:none;" />
+<img src="/statics/public/zhuanpan/image/a4.jpg" id="201801164" style="display:none;" />
+<img src="/statics/public/zhuanpan/image/a5.jpg" id="201801165" style="display:none;" />
+<img src="/statics/public/zhuanpan/image/a6.jpg" id="201801166" style="display:none;" />
+<img src="/statics/public/zhuanpan/image/a7.png" id="201801167" style="display:none;" />
+<div class="linkBox">
+	<div class="link">
+		<img class="linkLogo" src="http://m.yyygcs.vip/statics/templates/yungou/images/mobile/chao.png"/>
+		点击关注潮尚特惠
+		<span class="closeLink">
+			+
+		</span>
+	</div>
+</div>
+<div class="vlink"></div>
+<div class="lucky_header">
+	<div id="bgm"></div>
+	<div id="shownum"></div>
+</div>
+<div class="box">
+	<div class="banner">
+		<div class="turnplate">
+			<canvas class="item" id="wheelcanvas" width="422px" height="422px" style="background-image:url(/statics/public/zhuanpan/image/turnplate-bg.png?v=1000005);background-size:100% 100%;"></canvas>
+			<img class="pointer" src="/statics/public/zhuanpan/image/turnplate-pointer.png"/>
+		</div>
+	</div>
+	<div class="box-bottom">
+		<img src='/statics/public/zhuanpan/image/luckybottom.png?v=10001' />
+		<a class="yprize" href="/mobile/activity/getPersonprize" >您的奖品</a>
+		<div class="rule">活动规则</div>
+	</div>
+	<div class="lotteryList" style="height:auto;">
+		<ul style="color:#0c0b0b;">
+			<li>活动声明：</li>
+			<br/>
+			<li>1、每位会员每天拥有3次免费参与大转盘机会，分享朋友圈可额外获得2次转盘机会，2次分享时间间隔为1小时。(本次活动只面向在潮尚特惠专享上有购买记录的用户,新用户请消费一元后即可参与)</li>
+			<br/>
+			<li>2、所有实物奖品一律免费包邮，获得实物商品者请及时在获得商品相应处填写地址，以便收货！我们将陆续寄出奖品；获得福分，系统将自动充入账号中,福分可在"我的专享"-"兑换",挑选喜欢的商品进行兑换；详情请咨询潮尚客服或致电：0768-2833533。（2018年2月15日前未完善地址兑奖的，视为自动放弃中奖资格）</li>
+			<br/>
+			<li>3、通过恶意注册或其他不正当手段等参与本活动的；将取消其参与及领奖资格，且有权收回其通过本活动获得的奖品，并保留追究恶意刷奖者的法律责任的权利！</li>
+			<br/>
+			<li>4、本次活动商品数量有限,送完即止。</li>
+			<br/>
+			<li>5、滨惠专享对本次活动拥有最终解释权。</li>
+		</ul>
+	</div>
+	<div id="msg" style="display: none;">
+		<div id="innerTxt">
+			<p style="margin-top: 20%;">抽奖次数已用完！</p>
+			<a href='#'>前往充值</a>
+		</div>
+		<p id="mClose">+</p>
+	</div>
+    <div class="arrow_box">
+        <div class="arrow_content">
+            <div class="arrow"></div>
+            <p class="arrow_tip">邀请您的好友一起来玩吧</p>
+		</div>
+	</div>
+</div>
+<div class="qrCodeBox">
+	<div class="innerBox">
+		<img src="/statics/public/zhuanpan/image/qrcode.jpeg"/>
+		<div class="close">
+			X
+		</div>
+	</div>
+</div>
+
+<style>
+    .footer .u-ft-nav{
+        z-index:100009;
+    }
+</style>
+{wc:templates "mobile/index","footer"}
+
+<!--开启全站微信分享自定义-->
+<!--<script type="text/javascript" src="http://game.hgy768.net/statics/templates/ffxiang/js/jquery.cookie.js"></script>
+-->
+<!--end--></body>
+<script src="http://res.wx.qq.com/open/js/jweixin-1.2.0.js"></script>
+<script type="text/javascript">
+    var shareData = {
+        title:"喜迎新春！潮尚特惠专享送你iPhoneX！", // 分享标题
+        desc: "商品数量有限,快点来抢吧！", // 分享描述
+		link: 'http://m.yyygcs.vip/mobile/activity/zhuanpan', // 分享链接
+		imgUrl: '{G_TEMPLATES_STYLE}/images/mobile/phone.jpg', // 分享图标
+
+        trigger: function (res) {
+            $.getJSON("/mobile/activity/updateshare",function(json){
+                if(json.share==1){
+                    showMsg(json.tip);
+                }else if(json.share==2){
+                    showMsg("您今天的分享次数已经用完了");
+                }else if(json.share==0){
+                    showMsg(json.tip);
+                }
+            })
+        },
+        cancel: function (res) {
+
+		}
+
+    };
+    wx.config({
+        debug: false,
+	    appId: "{wc:php:start} echo $wechat['appid'];{wc:php:end}",
+	    timestamp: {wc:php:start} echo $signPackage["timestamp"];{wc:php:end},
+	    nonceStr: '{wc:php:start} echo $signPackage["nonceStr"];{wc:php:end}',
+	    signature: '{wc:php:start} echo $signPackage["signature"];{wc:php:end}',
+        jsApiList: ['onMenuShareTimeline','onMenuShareAppMessage']
+    });
+    wx.ready(function(){
+        wx.onMenuShareTimeline(shareData);
+        wx.onMenuShareAppMessage(shareData);
+
+		/*IOS端音频自动播放*/
+        audio.play();
+        audio.loop = true;
+    });
+</script>
+<script type="text/javascript">
+    var turnplate={
+        restaraunts:[],				//大转盘奖品名称
+        colors:[],					//大转盘奖品区块对应背景颜色
+        outsideRadius:192,			//大转盘外圆的半径
+        textRadius:165,				//大转盘奖品位置距离圆心的距离
+        insideRadius:68,			//大转盘内圆的半径
+        startAngle:0,				//开始角度
+
+        bRotate:false				//false:停止;ture:旋转
+    };
+    var awardTxt = [];
+    var s = [];
+    var count = [];
+    var prize_log = [];
+    var arr=[];
+    var att=[];
+    var isscore=[];
+    var scorearr=[];
+
+	function showMsg(msg,type){
+        var btns="OK";
+	    if(type==2){
+	         btns="去充值"
+		}
+	    layer.open({
+			style:"border:none;background:#fff;color:#000",
+			content:msg,
+			btn:btns,
+            shadeClose:false,
+			yes:function(index){
+			    if(type==2){
+			        window.location.href='/mobile/home/user_recharge'
+				}else{
+                    $('.pointer').bind("click", function(){data()});
+                    layer.close(index);
+				}
+			}
+		})
+	}
+
+    function load(){
+        $.getJSON("/mobile/activity/zhuanpandata",function(json){
+        	console.log(json);
+            var list = json.score;
+            var n;
+            for(var i in list){
+                if(s.indexOf(list[i].score)==-1){//数组去重，避免相同关键字被canvas重复渲染以致模糊
+                    s.push(list[i].score+"福分");
+                }
+                prize = list[i];
+                n = prize.item -1;
+
+                if(prize.type==3||prize.type==2) {
+                    if(prize.type==2){
+                        isscore.push(i);
+                        scorearr.push(prize.score+"福分");
+                    }
+                    awardTxt[n] = prize.score+"福分";//获奖提示使用的
+                    turnplate.restaraunts[n] = prize.name + prize.score+"福分";//转盘绘制奖品使用的
+                } else {
+                    awardTxt[n] = prize.name;//获奖提示使用的
+                    turnplate.restaraunts[n] = prize.name+prize.score+"福分";//转盘绘制奖品使用的
+                }
+            }
+            //对福分数组进行倒序排列
+            function sortNumber(a,b)
+            {
+                return a - b;
+            }
+            att=s.sort(sortNumber);
+            arr=att.reverse();
+            //动态添加大转盘的奖品与奖品区域背景颜色
+            turnplate.colors = ["rgba(0,0,0,0)","rgba(0,0,0,0)","rgba(0,0,0,0)","rgba(0,0,0,0)","rgba(0,0,0,0)","rgba(0,0,0,0)","rgba(0,0,0,0)"];
+
+            //从数据库成功获取数据后执行
+            drawRouletteWheel();
+
+        });
+    }
+
+    $(document).ready(function(){
+        load();
+
+        setTimeout(function(){
+            getMemberInfo();
+        },1000);
+
+        var width = $(window).width();
+        $("body").width(width);
+        $(".lucky_header").css("width",width+"px");
+
+        if($(".lotteryList").outerWidth()>=400){
+            $(".lotteryList").css("marginLeft","-200px");
+        }else{
+            $(".lotteryList").css("marginLeft","-45%");
+        }
+
+        var shownum=$("#shownum");
+        var member="";
+        var day_lucky="";
+        var lucky_mun="";
+
+        var rotateTimeOut = function (){
+            $('#banner').rotate({
+                angle:0,
+                animateTo:2160,
+                duration:8000,
+                callback:function (){
+                    alert('网络超时，请检查您的网络设置！');
+                }
+            });
+        };
+        $("#mClose").click(
+            function(){
+                $("#msg").css("transition","1s");
+                $("#msg").css({"top":"70%","left":"48%","transform":"rotate(360deg)","opacity":"0"});
+                setTimeout(function(){
+                    $("#msg").hide();
+                    $("#msg").css({"top":"19%","left":"50%","transform":"","opacity":"","transition":""});
+                    getMemberInfo();
+				},1000);
+                $(".arrow_box").hide();
+                $('.pointer').bind("click", function(){data()});
+            });
+
+        $('.pointer').bind("click", function(){data()});
+
+        $(".rule").click(function(){
+            $(".lotteryList").show(10,function(){
+                $(".lotteryList").animate({opacity:1},1000)
+			})
+        });
+
+		$(".lotteryList").click(function(){
+            $(".lotteryList").animate({opacity:0},1000,function(){
+                $(".lotteryList").hide(500);
+			})
+		})
+
+		$(".link").click(function(){
+		    $(".qrCodeBox").show(100,function(){
+                $(".qrCodeBox").animate({opacity:"0.9"},1000);
+			});
+		})
+
+        $(".qrCodeBox .close").click(function(){
+            $(".qrCodeBox").animate({opacity:"0"},1000,function(){
+                $(".qrCodeBox").hide();
+			});
+		})
+
+		$(".closeLink").click(function(event){
+            event.stopPropagation();    //  阻止事件冒泡
+		    $(".link").animate({opacity:"0"},1000,function(){
+                $(".link").hide(1000);
+                $(".vlink").hide(1000)
+            });
+		})
+    });
+
+    function rd(n,m){//随机取整数
+        var c = m-n+1;
+        return Math.floor(Math.random() * c + n);
+    }
+
+    //旋转转盘 item:奖品位置; txt：提示语;
+    function rotateFn(item,txt,numcode,score,type){
+        var deviateangle=(360 / turnplate.restaraunts.length) - (360 / (turnplate.restaraunts.length*2))
+        deviateangle=Math.floor(deviateangle);
+        deviateangle=deviateangle-6;//防止产生压线情况的发生
+
+        var angles = item * (360 / turnplate.restaraunts.length) - (360 / (turnplate.restaraunts.length*2));
+        if(angles<270){
+            angles = 270 - angles;
+        }else{
+            angles = 360 - angles + 270;
+        }
+        var num = Math.random();
+        num = Math.ceil(num*deviateangle);
+        var r=rd(1,2);
+        if(r==1)
+        {
+            var angles=angles+num;
+        }else
+        {
+            var angles=angles-num;
+        }
+        $('#wheelcanvas').stopRotate();
+        $('#wheelcanvas').rotate({
+            angle:0,
+            animateTo:angles+1800,
+            duration:10000,
+            callback:function (){
+                if(type==2||type==3) {//获得的是福分 就是不用提示获奖码
+					var msg="<p>恭喜您获得<br />" + score + "福分马上充入您的账号,请注意查收!</p>";
+					var showtype=1;
+					showMsg(msg,showtype);
+                }else{
+                    if(score==0){
+                        var msg="<p>恭喜您获得<br />" + awardTxt[item - 1] + ",请及时到[您的奖品]完善您的地址!";
+                        var showtype=1;
+                        showMsg(msg,showtype);
+                    }else{
+                        var msg="<p>恭喜您获得<br />" + awardTxt[item - 1] +"+"+score+"福分"+",请及时到[您的奖品]完善您的地址!";
+                        var showtype=1;
+                        showMsg(msg,showtype);
+                    }
+                }
+
+                turnplate.bRotate = !turnplate.bRotate;
+                load();//重新加载6个字段的赠送福分
+            }
+        });
+    };
+
+    function data(){
+        $(".pointer").unbind();
+        $.getJSON("/mobile/activity/zhuanpanclick",function(json){
+            if(json.success==false){
+                if(json.end==1){
+                    var msg="活动已经结束了~";
+                    var showtype=0;
+                    showMsg(msg,showtype);
+                }else if(json.login==0){
+                    $("#innerTxt").html("<p  style='margin-top:40%;height:60px;font-size:14px;'>请先登陆再参与活动</p><a href='/mobile/user/login' style='cursor:pointer;padding:10px;background:blue;color:white;border-radius:3px;font-size:18px;text-align:center;'>点击我进行登陆</a>");
+                    $("#msg").show(200);
+                }else if(json.has==0) {
+                    var msg=json.tip;
+                    var showtype=0;
+                    showMsg(msg,showtype);
+                }else if(json.has==2){
+                    var msg=json.tip;
+                    var showtype=0;
+                    showMsg(msg,showtype);
+                    $(".arrow_box").show();
+                }else if (json.noCharge==1){
+                    var msg=json.tip;
+                    var showtype=2;
+                    showMsg(msg,showtype);
+                }else{
+                    var msg=json.tip;
+                    var showtype=0;
+                    showMsg(msg,showtype);
+                }
+            }
+
+            if (json.code == 0){
+                if(turnplate.bRotate)return;
+                turnplate.bRotate = !turnplate.bRotate;
+                var item = json.item;
+                var numcode=json.numcode;
+                var score=json.score;
+                var type=json.type;
+                rotateFn(item,turnplate.restaraunts[item-1],numcode,score,type);
+            }
+        });
+    }
+
+    function drawRouletteWheel() {
+        var canvas = document.getElementById("wheelcanvas");
+        if (canvas.getContext) {
+            //根据奖品个数计算圆周角度
+            var arc = Math.PI / (turnplate.restaraunts.length/2);
+            var ctx = canvas.getContext("2d");
+            //在给定矩形内清空一个矩形
+            ctx.clearRect(0,0,422,422);
+            //strokeStyle 属性设置或返回用于笔触的颜色、渐变或模式
+            ctx.strokeStyle = "rgba(0,0,0,0)";/*#FFBE04*/
+            //font 属性设置或返回画布上文本内容的当前字体属性
+            ctx.font = '20px Microsoft YaHei';
+            for(var i = 0; i < turnplate.restaraunts.length; i++) {
+                var angle = turnplate.startAngle + i * arc;
+                ctx.fillStyle = turnplate.colors[i];
+                ctx.beginPath();
+                //arc(x,y,r,起始角,结束角,绘制方向) 方法创建弧/曲线（用于创建圆或部分圆）
+                ctx.arc(211, 211, turnplate.outsideRadius, angle, angle + arc, false);
+                ctx.arc(211, 211, turnplate.insideRadius, angle + arc, angle, true);
+                ctx.stroke();
+                ctx.fill();
+                //锁画布(为了保存之前的画布状态)
+                ctx.save();
+
+                //----绘制奖品开始----
+                ctx.fillStyle = "#E5302F";
+                var text = turnplate.restaraunts[i];//绘制奖品使用 格式iphone72福分
+                var line_height = 25;
+                //translate方法重新映射画布上的 (0,0) 位置
+                ctx.translate(211 + Math.cos(angle + arc / 2) * turnplate.textRadius, 211 + Math.sin(angle + arc / 2) * turnplate.textRadius);
+                //rotate方法旋转当前的绘图
+                ctx.rotate(angle + arc / 2 + Math.PI / 2);
+                for (var x = 0; x < arr.length; x++) {
+                    if (text.indexOf(arr[x]) !=-1){//arr 为福分数组，已去重   例子，在text（格式iphone72福分）中找出 2字 将text 分割为数组 array(1=>'iphone7',2=>'2福分');
+                        var scorei=in_array(i,isscore);
+                        if(in_array(i,isscore)){
+                            var texts = new Array();
+                            var lindex=text.lastIndexOf(scorearr[scorei]);
+                            texts[0]=text.slice(0,lindex);
+                            texts[1]=text.slice(-2,0);
+                        }else{
+                            var texts = text.split(arr[x]);
+                        }
+                        for (var j = 0; j < texts.length; j++) { //j=0时为奖品名称
+                            ctx.font = j != 0 ? 'bold 20px Microsoft YaHei' : '20px Microsoft YaHei';
+                            if (j == 0) {
+                                ctx.fillStyle = "#333";//#F8CC00
+                                ctx.fillText(texts[j], -ctx.measureText(texts[j]).width / 2, j * line_height * 1.5);
+                            } /*else if (arr[x] !=0&&arr[x]!=5000) { //画出福分的值，  0福分不画出来
+							 //  ctx.fillStyle = "#E5302F";
+							 // ctx.fillText(arr[x] + texts[j], -ctx.measureText(arr[x] + texts[j]).width / 2, j * line_height * 1.5);
+							 }*/
+                        }
+                        break;
+                    }
+                }
+
+                //添加对应图标
+                if (text.indexOf("苹果X") >= 0) {
+                    var img = document.getElementById("201801161");
+                    img.onload = function () {
+                        ctx.drawImage(img, -15, 10);
+                    };
+                    ctx.drawImage(img, -30, 10);
+                }else if(text.indexOf("iPad") >= 0)
+                {
+                    var img = document.getElementById("201801162");
+                    img.onload = function () {
+                        ctx.drawImage(img, -15, 10);
+                    };
+                    ctx.drawImage(img, -30, 10);
+                }else if(text.indexOf("金条")>=0)
+                {
+                    var img = document.getElementById("201801163");
+                    img.onload = function () {
+                        ctx.drawImage(img, -15, 10);
+                    };
+                    ctx.drawImage(img,-30, 10);
+                }else if(text.indexOf("充电宝")>=0)
+                {
+                    var img = document.getElementById("201801164");
+                    img.onload = function () {
+                        ctx.drawImage(img, -15, 10);
+                    };
+                    ctx.drawImage(img,-30, 10);
+                }else if(text.indexOf("加多宝")>=0)
+                {
+                    var img = document.getElementById("201801165");
+                    img.onload = function () {
+                        ctx.drawImage(img, -15, 10);
+                    };
+                    ctx.drawImage(img,-30, 10);
+                }else if(text.indexOf("福临门")>=0)
+                {
+                    var img = document.getElementById("201801166");
+                    img.onload = function () {
+                        ctx.drawImage(img, -15, 10);
+                    };
+                    ctx.drawImage(img,-30, 10);
+                }else if(text.indexOf("福分")>=0)
+                {
+                    var img = document.getElementById("201801167");
+                    img.onload = function () {
+                        ctx.drawImage(img, -15, 10);
+                    };
+                    ctx.drawImage(img,-30, 10);
+                }
+                //把当前画布返回（调整）到上一个save()状态之前
+                ctx.restore();
+                //----绘制奖品结束----
+            }
+        }
+    }
+
+
+    function in_array(search,array){
+        for(var i in array){
+            if(array[i]==search){
+                return i;
+            }
+        }
+        return false;
+    }
+
+    function getMemberInfo()
+    {
+        $.getJSON("/mobile/activity/zhuanpanInfo",function(json) {
+            var shownum=$("#shownum");
+            if (json.success == 1) {
+                shownum.html("<p style='color:#fff;font-size: 14px;font-weight: bold'>您今天剩余"+json.lucky_mun+"次</p>");
+                shownum.css("transition","1s");
+                shownum.css({"opacity":"1","transform":"rotateX(720deg)"});
+                setTimeout(function(){
+                    shownum.css({"opacity":"0","transform":"rotateX(0deg)"});
+                },2000)
+            }else{
+                shownum.html("<p style='color:#fff;font-size: 14px;font-weight: bold'>登陆后即可查看您的抽奖次数</p>");
+                shownum.css("transition","1s");
+                shownum.css({"opacity":"1","transform":"rotateX(720deg)"});
+                setTimeout(function(){
+                    shownum.css({"opacity":"0","transform":"rotateX(0deg)"});
+                },2000)
+			}
+        })
+    }
+
+    $(window).resize(function(){
+        if($(".lotteryList").outerWidth()>=400){
+            $(".lotteryList").css("marginLeft","-200px");
+        }else{
+            $(".lotteryList").css("marginLeft","-45%");
+        }
+    })
+
+</script>
+</html>

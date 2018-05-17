@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>个人中心</title>
+<link rel="stylesheet" type="text/css" href="/statics/templates/yungou/css/mobile/new/new_file.css"/>
+<link rel="stylesheet" type="text/css" href="/statics/templates/yungou/css/mobile/new/iconfont.css"/>
+
+</head>
+<body>
+<div class="container">
+	<div class="header">
+		<img src="/statics/templates/yungou/images/touxiang.jpg"/>
+		<div class="item">
+			<p>{wc:fun:get_user_name($member['uid'])}</p>
+			<small>{wc:$user_mobile}</small>
+			<p>余额：<span>{wc:$member['money']}</span>元&nbsp;&nbsp;&nbsp;&nbsp;赠送：<span>{wc:$zengsong}</span>元</p>
+			<p>福分：<span>{wc:$member['score']}分</span></p>
+			<p>流量：<span>{wc:$member['flow']}M</span></p>
+		</div>
+		<div class="item-nav">
+			<a href="{WEB_PATH}/mobile/home/userbalance">账户</a>
+			<a href="{WEB_PATH}/mobile/home/userrecharge">微信充值</a>
+			<a href="{WEB_PATH}/mobile/home/userrecharge9">支付宝充值</a>
+		</div>
+	</div>
+	<div class="content">
+		<h1 class="copy" data-clipboard-text="m.yyygcs.vip">点击此网址即可复制<span onclick="service_pic1();">m.yyygcs.vip</span>并在浏览器中打开</h1>
+		<ul>
+			<!-- <li><a href=""><i class="icon iconfont" style="color: #ba182d;">&#xe6e2;</i><span>活动入口</span><i class="icon iconfont">&#xe9d8;</i></a></li> -->			
+			<!-- <li><a href=""><i class="icon iconfont" style="color: #088cdd;">&#xe74e;</i><span>浏览历史</span><i class="icon iconfont">&#xe9d8;</i></a></li> -->
+			<!-- <li><a href=""><i class="icon iconfont" style="color: #923ab7;">&#xe6c5;</i><span>我的晒单</span><i class="icon iconfont">&#xe9d8;</i></a></li> -->
+			<!-- <li><a href="{WEB_PATH}/mobile/home/userbalance"><i class="icon iconfont" style="color: #edb138;">&#xe65b;</i><span>账户明细</span><i class="icon iconfont">&#xe9d8;</i></a></li> -->
+			
+			<li><a href="/index.php/mobile/home/flowshow"><i class="icon iconfont" style="color: #edb138;">&#xe986;</i><span>流量充值</span><i class="icon iconfont">&#xe9d8;</i></a></li>
+			<li><a href="{WEB_PATH}/mobile/home/userbuylist"><i class="icon iconfont" style="color: #1adda3;">&#xe9b4;</i><span>购买记录</span><i class="icon iconfont">&#xe9d8;</i></a></li>
+			<li><a href="{WEB_PATH}/mobile/home/orderlist"><i class="icon iconfont" style="color: #e5107a;">&#xe9c8;</i><span>获得商品</span><i class="icon iconfont">&#xe9d8;</i></a></li>
+			<li><a href="{WEB_PATH}/mobile/home/collectlist"><i class="icon iconfont" style="color: #107ee5;">&#xe62c;</i><span>我的收藏</span><i class="icon iconfont">&#xe9d8;</i></a></li>
+			<li><a href="{WEB_PATH}/mobile/invite/mycode2"><i class="icon iconfont" style="color: #107ee5;">&#xe9c4;</i><span>二维码推广</span><i class="icon iconfont">&#xe9d8;</i></a></li>
+			<li><a href="{WEB_PATH}/mobile/user/profile"><i class="icon iconfont" style="color: #9720bf;">&#xe9cc;</i><span>修改资料</span><i class="icon iconfont">&#xe9d8;</i></a></li>
+			<li><a href="{WEB_PATH}/mobile/home/invite"><i class="icon iconfont" style="color: #1adda3;">&#xe9a3;</i><span>好友管理</span><i class="icon iconfont">&#xe9d8;</i></a></li>
+			{wc:if $member['zhuan_status'] == 1}
+			<li><a href="{WEB_PATH}/mobile/home/zhuanzhang"><i class="icon iconfont" style="color: #47c415;">&#xe99c;</i><span>用户转账</span><i class="icon iconfont">&#xe9d8;</i></a></li>
+			{wc:if:end} 
+			{wc:if $member['mobile'] == null}
+			<li><a href="{WEB_PATH}/mobile/user/mobile"><i class="icon iconfont" style="color: #ea841e;">&#xe9d3;</i><span>绑定手机</span><i class="icon iconfont">&#xe9d8;</i></a></li>
+			{wc:if:end}
+			{wc:if $member['order_auth'] == 1}
+			<li><a href="{WEB_PATH}/mobile/home/myorder"><i class="icon iconfont" style="color: #95ea1e;">&#xe9c6;</i><span>手机查单</span><i class="icon iconfont">&#xe9d8;</i></a></li>
+			{wc:if:end}
+			<li><a href="{WEB_PATH}/mobile/user/cook_end"><i class="icon iconfont" style="color: #107ee5;">&#xe9bb;</i><span>安全退出</span><i class="icon iconfont">&#xe9d8;</i></a></li>
+		</ul>
+	</div>
+	<div class="footerdi">
+		<ul>
+			<li class="f_home"><a href="http://m.yyygcs.vip/index.php"><i>&nbsp;</i>首页</a></li>
+			<li class="f_whole"><a href="http://m.yyygcs.vip/index.php/mobile/mobile/glist"><i>&nbsp;</i>所有商品</a></a></li>
+			<li class="f_jiexiao"><a href="http://m.yyygcs.vip/index.php/mobile/mobile/lottery"><i>&nbsp;</i>最新揭晓</a></a></li>
+			<li class="f_car"><a href="http://m.yyygcs.vip/index.php/mobile/cart/cartlist"><i>&nbsp;</i>购物车</a></a></li>
+			<li class="f_personal"><a href="http://m.yyygcs.vip/index.php/mobile/home"><i class="cur">&nbsp;</i>个人中心</a></a></li>
+		</ul>
+	</div>
+</div>
+
+
+
+
+ <style type="text/css">
+
+            #service_bg {
+                top: 0;
+                bottom: 0;
+                z-index: 1200;
+                width: 100%;
+                height: 100%;
+                background: rgba(0, 0, 0, .5);
+                z-index: 999999;
+            }
+
+            #service_info {
+                top: 15%;
+                z-index: 140;
+                margin: auto;
+                width: 85%;
+                border-radius: 8px;
+                /*background: #f7ffff;*/
+                z-index: 9999999;
+            }
+
+            #service_bg, #service_info {
+                position: fixed;
+                right: 0;
+                left: 0;
+                display: none;
+                z-index: 9999999;
+            }
+
+            #service_code p {
+                color: #5c5c5c;
+                text-align: center;
+                font-size: 14px;
+                line-height: 45px;
+            }
+
+            #service_code img {
+                display: block;
+                margin: 0 auto;
+                width: 750px;
+                height: 1200px;
+            }
+
+            #service_code {
+                margin-bottom: 20px;
+            }
+
+            img {
+                border: 0;
+            }
+            .footerdi{
+            	clear: both;
+            	width: 100%;
+            	background: #f7f7f7;
+            	border-top: 1px solid #ddd;
+            	position: fixed;
+            	bottom: 0;
+            	z-index: 999999;
+            }
+            .footerdi ul li{
+            	display: inline-block;
+            	width: 19.6%;
+            }
+            .footerdi a{
+            	padding-top: 5px;
+            	text-align: center;
+            	display: block;
+            	color: #888;
+            	font-size: 2.2rem;
+            	height: 120px;
+            }
+            .footerdi a i{
+            	display: block;
+            	background: url(/statics/templates/yungou/images/mobile/f_set.png) no-repeat center center;
+            	background-size: 40%;
+            	margin: 0 auto;
+            	margin-bottom:1px ;
+            	height: 70px;
+            }
+            .footerdi ul .f_home i{
+            	background: url(/statics/templates/yungou/images/mobile/chao1.png) no-repeat center center;
+            	background-size: 36%;
+            	opacity: 0.6;
+            }
+            .footerdi ul .f_whole i{
+            	background-position: 66px -210px;
+            	
+            }
+            .footerdi ul .f_jiexiao i{
+            	background-position: 62px -540px;
+            }
+            .footerdi ul .f_car i{
+            	background-position:60px -348px;
+            	
+            }
+            .footerdi ul .f_personal i{
+            	background-position: 64px -435px;
+            	background-size: 42%;
+            }
+        </style>
+        <script type="text/javascript">
+            function service_pic1() {
+                var _secode = 'http://m.yyygcs.vip/statics/templates/yungou/images/mobile/newimg.jpg';
+                $('#service_code').find('img').attr('src', _secode).removeAttr("data-src");
+                $('#service_bg').css('display', 'block');
+                if($('#service_bg').css('display')=='block'){
+                	$('#service_bg').click(function () {
+	                    $('.server_title').html('长按二维码，添加潮尚科技客服微信');
+	                    $('#service_bg').css('display', 'none');
+	                });
+                }
+            }
+			
+            function stopEvent(e){
+		       e.stopPropagation();
+		    }
+        </script>
+        <div id="service_bg">
+            <div id="service_info" style="display: block;">
+                <div id="service_code" onclick="stopEvent(event);">
+                    <p class="server_title"></p>
+                    <img src="http://m.yyygcs.vip/statics/templates/yungou/images/mobile/20180206.jpg"
+                         data-src="http://m.yyygcs.vip/statics/templates/yungou/images/mobile/w2.jpg">
+                </div>
+            </div>
+        </div>
+<script type="text/javascript" src="/statics/templates/yungou/js/mobile/new/jq.min.js"></script>
+<script type="text/javascript" src="/statics/templates/yungou/js/mobile/new/clipboard.js"></script>
+<script type="text/javascript">
+$(function(){
+	var clipboard = new Clipboard('.copy');
+ 
+	clipboard.on('success', function(e) {
+	  //console.info('Action:', e.action);
+	  //console.info('Text:', e.text);
+	  //console.info('Trigger:', e.trigger);
+	 
+	  e.clearSelection();
+	});
+	 
+	clipboard.on('error', function(e) {
+	  console.error('Action:', e.action);
+	  console.error('Trigger:', e.trigger);
+	});
+	});
+</script>
+<script language="javascript" type="text/javascript">
+            var Path = new Object();
+            Path.Skin = "{G_TEMPLATES_STYLE}";
+            Path.Webpath = "{WEB_PATH}";
+
+            var Base = {
+                head: document.getElementsByTagName("head")[0] || document.documentElement,
+                Myload: function (B, A) {
+                    this.done = false;
+                    B.onload = B.onreadystatechange = function () {
+                        if (!this.done && (!this.readyState || this.readyState === "loaded" || this.readyState === "complete")) {
+                            this.done = true;
+                            A();
+                            B.onload = B.onreadystatechange = null;
+                            if (this.head && B.parentNode) {
+                                this.head.removeChild(B)
+                            }
+                        }
+                    }
+                },
+                getScript: function (A, C) {
+                    var B = function () {
+                    };
+                    if (C != undefined) {
+                        B = C
+                    }
+                    var D = document.createElement("script");
+                    D.setAttribute("language", "javascript");
+                    D.setAttribute("type", "text/javascript");
+                    D.setAttribute("src", A);
+                    this.head.appendChild(D);
+                    this.Myload(D, B)
+                },
+                getStyle: function (A, B) {
+                    var B = function () {
+                    };
+                    if (callBack != undefined) {
+                        B = callBack
+                    }
+                    var C = document.createElement("link");
+                    C.setAttribute("type", "text/css");
+                    C.setAttribute("rel", "stylesheet");
+                    C.setAttribute("href", A);
+                    this.head.appendChild(C);
+                    this.Myload(C, B)
+                }
+            }
+
+            function GetVerNum() {
+                var D = new Date();
+                return D.getFullYear().toString().substring(2, 4) + '.' + (D.getMonth() + 1) + '.' + D.getDate() + '.' + D.getHours() + '.' + (D.getMinutes() < 10 ? '0' : D.getMinutes().toString().substring(0, 1))
+            }
+
+            Base.getScript('{G_TEMPLATES_JS}/mobile/Bottom.js?v=' + GetVerNum());
+        </script>
+
+</body>
+</html>

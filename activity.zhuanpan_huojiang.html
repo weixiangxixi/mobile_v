@@ -1,0 +1,126 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>我的奖品</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, user-scalable=no, maximum-scale=1.0"/>
+    <meta content="yes" name="apple-mobile-web-app-capable" />
+    <meta content="black" name="apple-mobile-web-app-status-bar-style" />
+    <meta content="telephone=no" name="format-detection" />
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+    <meta http-equiv="Pragma" content="no-cache" />
+    <meta http-equiv="Expires" content="0" />
+    <link href="http://game.hgy768.net/statics/templates/ffxiang/css/mobile/comm.css?v=17051301" rel="stylesheet" type="text/css" />
+    <script src="http://game.hgy768.net/statics/plugin/jquery/jquery-1.9.1.min.js" language="javascript" type="text/javascript"></script><script src="http://game.hgy768.net/statics/templates/ffxiang/js/mobile/jquery-1.10.2.js" language="javascript" type="text/javascript"></script>
+<script src="http://game.hgy768.net/statics/templates/ffxiang/js/mobile/awardRotate.js" language="javascript" type="text/javascript"></script>
+<!--<script src="http://game.hgy768.net/statics/templates/ffxiang/js/mobile/lucky_index.js" language="javascript" type="text/javascript"></script>-->
+<style>
+    *{
+        margin:0;
+        padding:0;
+    }
+    body{
+        background:#efeeba;
+    }
+    .lotteryList{
+        width:10rem;
+        margin-bottom: 2rem;
+    }
+    .lotteryList div{
+        margin:1rem 0;
+    }
+    .lotteryList h1{
+        text-align: center;
+        color: #f61212;
+        font-size: 1.2rem;
+        font-weight: bold;
+        text-shadow: 1px -1px 2px #961e1e;
+    }
+    table
+    {
+        border: 0.1rem solid brown;
+        color: black;
+        margin: 0 auto;
+        border-collapse: collapse;
+        width: 9.8rem;
+    }
+    td
+    {
+        border:0.05rem solid brown;
+        padding:0.1rem;
+        text-align: center;
+    }
+</style>
+</head>
+<body>
+<div class="lotteryList">
+    <div>
+        <h1>您的获奖记录</h1>
+    </div>
+    <table>
+        <tr>
+            <td>奖品</td>
+            <td>获奖时间</td>
+            <td>奖品状态</td>
+        </tr>
+            </table>
+</div>
+<script src="https://s11.cnzz.com/z_stat.php?id=1259931418&web_id=1259931418" language="JavaScript" type="hidden"></script>
+<style>
+    .footer .u-ft-nav{
+        z-index:100009;
+    }
+</style>
+<footer class="footer">
+    <span id="btnTop" class="z-top" title="返回顶部"><b class="z-arrow"></b></span>
+    <div class="u-ft-nav">
+        <ul>
+            <li class="f_home"><a href="http://1yygzy.com/index.php/mobile/mobile"><i></i>首页</a></li>
+            <li class="f_allgoods"><a href="http://1yygzy.com/index.php/mobile/mobile/glist"><i></i>所有商品</a></li>
+            <li class="f_announced"><a href="http://1yygzy.com/index.php/mobile/mobile/lottery"><i></i>最新揭晓</a></li>
+            <li class="f_car"><a id="btnCart" href="http://1yygzy.com/index.php/mobile/cart/cartlist"><i></i>购物车</a></li>
+            <li class="f_personal"><a href="http://1yygzy.com/index.php/mobile/home"><i></i>我的专享</a></li>
+        </ul>
+    </div>
+    <!--置顶按钮滚动特效-->
+    <script src="http://game.hgy768.net/statics/templates/ffxiang/js/mobile/topHovertree.js" language="javascript" type="text/javascript"></script>
+    <script>
+        $(".f_ > a").addClass("hover");
+        initTopHoverTree("btnTop",500,1,58);
+    </script>
+</footer>
+
+<!--开启全站微信分享自定义-->
+<!--<script type="text/javascript" src="http://game.hgy768.net/statics/templates/ffxiang/js/jquery.cookie.js"></script>
+-->
+<!--end--></body>
+<script>
+    $(document).ready(function(){
+        //文档加载完成时获取屏幕宽度设置root的fontsize
+        var width=$(window).width();
+        $("html").css("fontSize",(width/10)+"px");
+    });
+
+    $(window).resize(function() {
+        //屏幕变换时获取屏幕宽度设置root的fontsize
+        var width=$(window).width();
+        $("html").css("fontSize",(width/10)+"px");
+    });
+
+    function check(a) {
+        var tr=a.siblings("div");
+        tr.toggle(500);
+    }
+
+    function confrim(oid) {
+        $.post("http://game.hgy768.net/index.php/mobile/lucky/confirmsend",{orderid:oid},function(json){
+            var json=eval('(' + json + ')');
+            if(json.success==true)
+            {
+                window.location.reload();
+            }
+        })
+    }
+</script>
+</html>
